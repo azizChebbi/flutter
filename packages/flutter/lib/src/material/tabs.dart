@@ -159,6 +159,31 @@ class Tab extends StatelessWidget implements PreferredSizeWidget {
   /// If null, the height will be calculated based on the content of the [Tab]. When `icon` is not
   /// null along with `child` or `text`, the default height is 72.0 pixels. Without an `icon`, the
   /// height is 46.0 pixels.
+  ///
+  /// {@tool snippet}
+  ///
+  /// The provided tab height cannot be lower than the default height. Use
+  /// [PreferredSize] widget to adjust the overall [TabBar] height and match
+  /// the provided tab [height]:
+  ///
+  /// ```dart
+  /// bottom: const PreferredSize(
+  ///   preferredSize: Size.fromHeight(20.0),
+  ///   child: TabBar(
+  ///     tabs: <Widget>[
+  ///       Tab(
+  ///         text: 'Tab 1',
+  ///         height: 20.0,
+  ///       ),
+  ///       Tab(
+  ///         text: 'Tab 2',
+  ///         height: 20.0,
+  ///       ),
+  ///     ],
+  ///   ),
+  /// ),
+  /// ```
+  /// {@end-tool}
   final double? height;
 
   Widget _buildLabelText() {
@@ -246,7 +271,7 @@ class _TabStyle extends AnimatedWidget {
 
   MaterialStateColor _resolveWithLabelColor(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    final TabBarThemeData tabBarTheme = TabBarTheme.of(context).data;
+    final TabBarThemeData tabBarTheme = TabBarTheme.of(context);
     final Animation<double> animation = listenable as Animation<double>;
 
     // labelStyle.color (and tabBarTheme.labelStyle.color) is not considered
@@ -285,7 +310,7 @@ class _TabStyle extends AnimatedWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TabBarThemeData tabBarTheme = TabBarTheme.of(context).data;
+    final TabBarThemeData tabBarTheme = TabBarTheme.of(context);
     final Animation<double> animation = listenable as Animation<double>;
 
     final Set<MaterialState> states = isSelected
@@ -1355,7 +1380,7 @@ class _TabBarState extends State<TabBar> {
 
   Decoration _getIndicator(TabBarIndicatorSize indicatorSize) {
     final ThemeData theme = Theme.of(context);
-    final TabBarThemeData tabBarTheme = TabBarTheme.of(context).data;
+    final TabBarThemeData tabBarTheme = TabBarTheme.of(context);
 
     if (widget.indicator != null) {
       return widget.indicator!;
@@ -1455,7 +1480,7 @@ class _TabBarState extends State<TabBar> {
 
   void _initIndicatorPainter() {
     final ThemeData theme = Theme.of(context);
-    final TabBarTheme tabBarTheme = TabBarTheme.of(context);
+    final TabBarThemeData tabBarTheme = TabBarTheme.of(context);
     final TabBarIndicatorSize indicatorSize = widget.indicatorSize
       ?? tabBarTheme.indicatorSize
       ?? _defaults.indicatorSize!;
@@ -1687,7 +1712,7 @@ class _TabBarState extends State<TabBar> {
     assert(debugCheckHasMaterialLocalizations(context));
     assert(_debugScheduleCheckHasValidTabsCount());
     final ThemeData theme = Theme.of(context);
-    final TabBarThemeData tabBarTheme = TabBarTheme.of(context).data;
+    final TabBarThemeData tabBarTheme = TabBarTheme.of(context);
     final TabAlignment effectiveTabAlignment = widget.tabAlignment ?? tabBarTheme.tabAlignment ?? _defaults.tabAlignment!;
     assert(_debugTabAlignmentIsValid(effectiveTabAlignment));
 
